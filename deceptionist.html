@@ -190,10 +190,25 @@
         /* General mobile button base (will be overridden for place-wall) */
         #roll-btn-mobile,
         #restart-game-btn-mobile,
-        #view-mobile,
+        #view-mobile {
+            padding: 7px 12px;
+            font-size: 15px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #D2E03C, #D2E03C);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+        }
+        
         #set-mobile {
-            padding: 14px 28px;
-            font-size: 18px;
+            padding: 7px 12px;
+            font-size: 15px;
             font-weight: 600;
             background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
@@ -205,6 +220,21 @@
             width: 100%;
             display: inline-block;
             text-align: center;
+        }
+
+        /* Make anchor tag wrapper for view-mobile button match the button styling */
+        .mobile-top-right a {
+            display: flex;
+            width: 100%;
+            text-decoration: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-top-right a button {
+            width: 100%;
+            padding: 7px 12px;
+            margin: 0;
         }
 
         #roll-btn-mobile:hover,
@@ -253,7 +283,7 @@
         /* Mobile labels mirror desktop small labels */
         #you-are-mobile {
             font-size: 14px;
-            padding: 8px 16px;
+            padding: 4px 8px;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -434,7 +464,7 @@
         #current-turn {
             font-size: 20px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 60px;
             color: #e2e8f0;
         }
 
@@ -760,7 +790,7 @@
         .mobile-navbar {
             display: none;
             width: 100%;
-            background: #FC8E3A;
+            background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
             color: #1a202c;
             align-items: center;
             justify-content: space-between;
@@ -779,7 +809,7 @@
             padding: 8px 12px;
             font-size: 14px;
             font-weight: 600;
-            background: #1a202c;
+            background: #CF3535;
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -964,17 +994,25 @@
                 overflow-y: auto !important;
                 overflow-x: hidden;
                 -webkit-overflow-scrolling: touch;
+                margin: 0;
+                padding: 0;
             }
 
             .mobile-navbar {
                 display: flex;
-                position: sticky;
+                position: fixed;
                 top: 0;
+                left: 0;
+                right: 0;
                 z-index: 1000;
+                margin: 0;
+                padding: 10px 14px;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .mobile-controls-top {
-                margin-top: 10px;
+                margin-top: 60px;
             }
 
             .game-area {
@@ -989,16 +1027,37 @@
             .mobile-top-right {
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: stretch;
                 justify-content: flex-end;
                 gap: 10px;
                 width: 100%;
             }
 
+            /* Hide Restart button in mobile-top-right on small screens */
+            #restart-game-btn-mobile {
+                display: none;
+            }
+
             #view-mobile,
             #set-mobile {
-                flex: 1;
+                flex: 1 1 0;
                 min-width: 0;
+                box-sizing: border-box;
+                padding: 7px 12px !important;
+                width: auto;
+            }
+
+            .mobile-top-right a {
+                flex: 1 1 0;
+                min-width: 0;
+                box-sizing: border-box;
+                display: flex;
+            }
+
+            .mobile-top-right a button {
+                padding: 7px 12px !important;
+                width: 100%;
+                flex: 1;
             }
 
             .color-options {
@@ -1035,8 +1094,8 @@
             }
 
             .location-icon {
-                width: 24px;
-                height: 24px;
+                width: 14px;
+                height: 14px;
             }
 
             .goti {
@@ -1239,7 +1298,7 @@
     <div class="container">
         <!-- Mobile Navbar -->
         <div class="mobile-navbar">
-            <div class="mobile-navbar-title">deceptionist</div>
+            <div class="mobile-navbar-title">Deceptionist</div>
             <button id="restart-game-btn-nav">Restart Game</button>
         </div>
         <!-- Mobile Top Controls -->
@@ -1253,7 +1312,7 @@
                 <div class="mobile-top-right">
                     <button id="restart-game-btn-mobile">Restart Game</button>
                     <button id="set-mobile">⚙️Settings</button>
-                    <a href="./rule_book.html" target="_blank"><button id="view-mobile">View Rule Book</button></a>
+                    <a href="./rule_book.html" target="_blank"><button id="view-mobile">See Rules</button></a>
                 </div>
             </div>
         </div>
@@ -1553,6 +1612,7 @@
         const viewBtnMobile = document.getElementById('view-mobile');
         const settingsBtnMobile = document.getElementById('set-mobile');
         const diceMobile = document.getElementById('dice-mobile');
+        const dice = document.getElementById('dice');
         const restartGameBtnNav = document.getElementById('restart-game-btn-nav');
 
         // Audio elements
@@ -1732,6 +1792,7 @@
                 box.style.background = 'yellow';
                 box.style.border = '3px solid black';
                 if (c === 8) {
+                    box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
                     icon.className = 'location-icon';
                     icon.innerHTML = pinSVG;
@@ -1744,6 +1805,7 @@
                 box.style.background = '#68DD00';
                 box.style.border = '3px solid black';
                 if (r === 7) {
+                    box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
                     icon.className = 'location-icon';
                     icon.innerHTML = pinSVG;
@@ -1756,6 +1818,7 @@
                 box.style.background = 'blue';
                 box.style.border = '3px solid black';
                 if (r === 7) {
+                    box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
                     icon.className = 'location-icon';
                     icon.innerHTML = pinSVG;
@@ -1768,6 +1831,7 @@
                 box.style.background = 'red';
                 box.style.border = '3px solid black';
                 if (c === 8) {
+                    box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
                     icon.className = 'location-icon';
                     icon.innerHTML = pinSVG;
@@ -1821,6 +1885,16 @@
             // Roll button
             rollBtn.addEventListener('click', handleRoll);
             rollBtnMobile.addEventListener('click', handleRoll);
+            
+            // Dice click handlers - click on dice to roll
+            if (dice) {
+                dice.addEventListener('click', handleRoll);
+                dice.style.cursor = 'pointer';
+            }
+            if (diceMobile) {
+                diceMobile.addEventListener('click', handleRoll);
+                diceMobile.style.cursor = 'pointer';
+            }
 
             // Place wall button
             placeWallBtn.addEventListener('click', toggleWallPlacement);
