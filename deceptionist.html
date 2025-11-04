@@ -756,10 +756,44 @@
             gap: 10px;
         }
 
+        /* Mobile Navbar */
+        .mobile-navbar {
+            display: none;
+            width: 100%;
+            background: #FC8E3A;
+            color: #1a202c;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            box-sizing: border-box;
+        }
+
+        .mobile-navbar-title {
+            font-weight: 800;
+            font-size: 18px;
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+        }
+
+        #restart-game-btn-nav {
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #1a202c;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* subtle 10px gaps between mobile sections */
+        .mobile-gap {
+            height: 10px;
+        }
+
         /* Hide non-essential buttons on mobile to reduce clutter */
-        #restart-game-btn-mobile,
-        #view-mobile,
-        #set-mobile {
+        /* Keep View Rule Book and Settings visible; move Restart to navbar */
+        #restart-game-btn-mobile {
             display: none !important;
         }
 
@@ -922,6 +956,51 @@
         }
 
         @media (max-width: 480px) {
+
+            html,
+            body {
+                height: auto;
+                min-height: 100dvh;
+                overflow-y: auto !important;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .mobile-navbar {
+                display: flex;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .mobile-controls-top {
+                margin-top: 10px;
+            }
+
+            .game-area {
+                margin-top: 10px;
+            }
+
+            .mobile-controls {
+                margin-top: 10px;
+            }
+
+            /* Put View Rule Book and Settings on one line - equal width */
+            .mobile-top-right {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 10px;
+                width: 100%;
+            }
+
+            #view-mobile,
+            #set-mobile {
+                flex: 1;
+                min-width: 0;
+            }
+
             .color-options {
                 grid-template-columns: 1fr;
             }
@@ -952,7 +1031,27 @@
             }
 
             .grid-container {
-                gap: 0.8vw;
+                gap: 0.4vw;
+            }
+
+            .location-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            .goti {
+                width: 24px;
+                height: 24px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.2);
+            }
+
+            .wall-block {
+                width: clamp(18px, 4.6vw, 34px);
+                height: clamp(8px, 1.2vw, 12px);
+            }
+
+            .entry-arrow {
+                animation: none;
             }
 
             /* Larger dice on very small phones for visibility */
@@ -1138,17 +1237,23 @@
 
 <body>
     <div class="container">
+        <!-- Mobile Navbar -->
+        <div class="mobile-navbar">
+            <div class="mobile-navbar-title">deceptionist</div>
+            <button id="restart-game-btn-nav">Restart Game</button>
+        </div>
         <!-- Mobile Top Controls -->
         <div class="mobile-controls-top">
             <div class="mobile-controls-top-grid">
                 <div class="mobile-top-left">
-                    <div id="current-turn-mobile">Current Turn: Yellow</div>
-                    <div id="you-are-mobile">You are: <strong id="you-color-mobile">Yellow</strong></div>
+                    <div id="current-turn-mobile" style="text-align: center;">Current Turn: Yellow</div>
+                    <div style="text-align: center;" id="you-are-mobile">You are: <strong
+                            id="you-color-mobile">Yellow</strong></div>
                 </div>
                 <div class="mobile-top-right">
                     <button id="restart-game-btn-mobile">Restart Game</button>
-                    <a href="./rule_book.html" target="_blank"><button id="view-mobile">View Rule Book</button></a>
                     <button id="set-mobile">⚙️Settings</button>
+                    <a href="./rule_book.html" target="_blank"><button id="view-mobile">View Rule Book</button></a>
                 </div>
             </div>
         </div>
@@ -1448,6 +1553,7 @@
         const viewBtnMobile = document.getElementById('view-mobile');
         const settingsBtnMobile = document.getElementById('set-mobile');
         const diceMobile = document.getElementById('dice-mobile');
+        const restartGameBtnNav = document.getElementById('restart-game-btn-nav');
 
         // Audio elements
         const diceSound = document.getElementById('dice-sound');
@@ -1477,7 +1583,7 @@
         const sixOverlay = document.getElementById('six-overlay');
         const sixOk = document.getElementById('six-ok');
 
-        let botSpeedMultiplier = 2; // default faster bots (2x)
+        let botSpeedMultiplier = 3; // default faster bots (2x)
         // track how many 6's the human player has rolled; only show modal on 2nd 6
         const humanSixCount = { yellow: 0, green: 0, blue: 0, red: 0 };
         const sixModalShownFor = { yellow: false, green: false, blue: false, red: false };
@@ -1735,6 +1841,12 @@
                 localStorage.removeItem('deceptionist_game_state');
                 window.location.reload();
             });
+            if (restartGameBtnNav) {
+                restartGameBtnNav.addEventListener('click', () => {
+                    localStorage.removeItem('deceptionist_game_state');
+                    window.location.reload();
+                });
+            }
 
             // Color selection
             colorOptions.forEach(option => {
@@ -3166,52 +3278,83 @@
             map.forEach(cfg => {
                 const el = positionToElement[cfg.entry];
                 if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const boardRect = outer.getBoundingClientRect();
-
-                // compute position completely outside the board
                 const arrow = document.createElement('div');
                 arrow.className = 'entry-arrow';
                 arrow.style.background = 'transparent';
 
-                // SVG arrow depending on dir
                 let svg = '';
                 const fill = cfg.arrowColor;
-                const arrowSize = 36; // arrow size in pixels
-                const marginU = 19; // distance from board edge
-                const marginB = 16; // distance from board edge
-                const marginR = 14; // distance from board edge
-                const marginL = 18; // distance from board edge
-                const rightMargin = -2; // 2px right margin for all arrows
+                const isMobile = window.innerWidth <= 480;
+                const arrowSize = isMobile ? 20 : 36;
+                const marginU = 19;
+                const marginB = 16;
+                const marginR = 14;
+                const marginL = 18;
+                const rightMargin = -2;
 
                 if (cfg.dir === 'up') {
                     svg = `<svg viewBox="0 0 24 24" fill="${fill}" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 L20 14 H4 L12 2 Z"/></svg>`;
-                    // Top arrow with 2px right margin
-                    arrow.style.left = '48%';
-                    arrow.style.top = (-marginU) + 'px';
-                    arrow.style.transform = `translateX(calc(-50% + ${rightMargin}px))`;
                 } else if (cfg.dir === 'down') {
                     svg = `<svg viewBox="0 0 24 24" fill="${fill}" xmlns="http://www.w3.org/2000/svg"><path d="M12 22 L4 10 H20 L12 22 Z"/></svg>`;
-                    // Bottom arrow with 2px right margin
-                    arrow.style.left = '48%';
-                    arrow.style.top = (boardRect.height - arrowSize + marginB) + 'px';
-                    arrow.style.transform = `translateX(calc(-50% + ${rightMargin}px))`;
                 } else if (cfg.dir === 'left') {
                     svg = `<svg viewBox="0 0 24 24" fill="${fill}" xmlns="http://www.w3.org/2000/svg"><path d="M2 12 L14 4 V20 L2 12 Z"/></svg>`;
-                    // Left arrow with 2px right margin
-                    arrow.style.left = (-marginL + rightMargin) + 'px';
-                    arrow.style.top = '51%';
-                    arrow.style.transform = 'translateY(-50%)';
                 } else if (cfg.dir === 'right') {
                     svg = `<svg viewBox="0 0 24 24" fill="${fill}" xmlns="http://www.w3.org/2000/svg"><path d="M22 12 L10 20 V4 L22 12 Z"/></svg>`;
-                    // Right arrow with 2px right margin
-                    arrow.style.left = (boardRect.width - arrowSize + marginR + rightMargin) + 'px';
-                    arrow.style.top = '51%';
-                    arrow.style.transform = 'translateY(-50%)';
                 }
 
                 arrow.innerHTML = svg;
-                outer.appendChild(arrow);
+
+                if (isMobile) {
+                    // place arrow inside the entry cell, near the cell edge
+                    arrow.style.position = 'absolute';
+                    arrow.style.width = arrowSize + 'px';
+                    arrow.style.height = arrowSize + 'px';
+                    arrow.style.animation = 'none';
+                    if (cfg.dir === 'up') {
+                        arrow.style.left = '50%';
+                        arrow.style.top = '4px';
+                        arrow.style.transform = 'translateX(-50%)';
+                    } else if (cfg.dir === 'down') {
+                        arrow.style.left = '50%';
+                        arrow.style.bottom = '4px';
+                        arrow.style.transform = 'translateX(-50%)';
+                    } else if (cfg.dir === 'left') {
+                        arrow.style.left = '4px';
+                        arrow.style.top = '50%';
+                        arrow.style.transform = 'translateY(-50%)';
+                    } else if (cfg.dir === 'right') {
+                        arrow.style.right = '4px';
+                        arrow.style.top = '50%';
+                        arrow.style.transform = 'translateY(-50%)';
+                    }
+                    el.style.position = 'relative';
+                    el.appendChild(arrow);
+                } else {
+                    // original behavior: float outside board
+                    const outerRect = outer.getBoundingClientRect();
+                    const boardRect = outerRect; // alias
+                    arrow.style.position = 'absolute';
+                    arrow.style.width = arrowSize + 'px';
+                    arrow.style.height = arrowSize + 'px';
+                    if (cfg.dir === 'up') {
+                        arrow.style.left = '48%';
+                        arrow.style.top = (-marginU) + 'px';
+                        arrow.style.transform = `translateX(calc(-50% + ${rightMargin}px))`;
+                    } else if (cfg.dir === 'down') {
+                        arrow.style.left = '48%';
+                        arrow.style.top = (boardRect.height - arrowSize + marginB) + 'px';
+                        arrow.style.transform = `translateX(calc(-50% + ${rightMargin}px))`;
+                    } else if (cfg.dir === 'left') {
+                        arrow.style.left = (-marginL + rightMargin) + 'px';
+                        arrow.style.top = '51%';
+                        arrow.style.transform = 'translateY(-50%)';
+                    } else if (cfg.dir === 'right') {
+                        arrow.style.left = (boardRect.width - arrowSize + marginR + rightMargin) + 'px';
+                        arrow.style.top = '51%';
+                        arrow.style.transform = 'translateY(-50%)';
+                    }
+                    outer.appendChild(arrow);
+                }
             });
         }
     </script>
