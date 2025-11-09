@@ -205,7 +205,7 @@
             display: inline-block;
             text-align: center;
         }
-        
+
         #set-mobile {
             padding: 7px 12px;
             font-size: 15px;
@@ -464,7 +464,7 @@
         #current-turn {
             font-size: 20px;
             font-weight: bold;
-            margin-top: 60px;
+            margin-top: 10px;
             color: #e2e8f0;
         }
 
@@ -529,6 +529,29 @@
             position: absolute;
             inset: 2px;
             pointer-events: none;
+            animation: wallPlacement 1.5s ease-out;
+        }
+
+        @keyframes wallPlacement {
+            0% {
+                transform: scale(3.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(2.5);
+                opacity: 0.12;
+            }
+
+            70% {
+                transform: scale(1.7);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         #win-overlay {
@@ -1094,8 +1117,28 @@
             }
 
             .location-icon {
-                width: 14px;
-                height: 14px;
+                width: 12px;
+                height: 12px;
+            }
+
+            /* Move top location icon down a bit in mobile view */
+            .grid-item[data-r="0"][data-c="8"] .location-icon {
+                top: 80%;
+            }
+
+            /* Move bottom location icon up a bit in mobile view */
+            .grid-item[data-r="13"][data-c="8"] .location-icon {
+                top: 20%;
+            }
+
+            /* Move left location icon to the right a bit in mobile view */
+            .grid-item[data-r="7"][data-c="0"] .location-icon {
+                left: 85%;
+            }
+
+            /* Move right location icon to the left a bit in mobile view */
+            .grid-item[data-r="7"][data-c="16"] .location-icon {
+                left: 15%;
             }
 
             .goti {
@@ -1527,6 +1570,10 @@
         <source src="lose.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <audio id="wall-sound" preload="auto">
+        <source src="wall.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script>
         // Game variables
@@ -1620,6 +1667,7 @@
         const gotiMoveSound = document.getElementById('goti-move-sound');
         const winSound = document.getElementById('win-sound');
         const loseSound = document.getElementById('lose-sound');
+        const wallSound = document.getElementById('wall-sound');
 
         // Initialize game
         function initGame() {
@@ -1643,7 +1691,7 @@
         const sixOverlay = document.getElementById('six-overlay');
         const sixOk = document.getElementById('six-ok');
 
-        let botSpeedMultiplier = 3; // default faster bots (2x)
+        let botSpeedMultiplier = 1; // default faster bots (2x)
         // track how many 6's the human player has rolled; only show modal on 2nd 6
         const humanSixCount = { yellow: 0, green: 0, blue: 0, red: 0 };
         const sixModalShownFor = { yellow: false, green: false, blue: false, red: false };
@@ -1885,7 +1933,7 @@
             // Roll button
             rollBtn.addEventListener('click', handleRoll);
             rollBtnMobile.addEventListener('click', handleRoll);
-            
+
             // Dice click handlers - click on dice to roll
             if (dice) {
                 dice.addEventListener('click', handleRoll);
@@ -2562,6 +2610,10 @@
             overlay.style.border = '3px solid ' + cfg.border;
             overlay.style.pointerEvents = 'none';
             cell.appendChild(overlay);
+
+            // Play wall placement sound
+            playWallSound();
+
             return true;
         }
 
@@ -2716,7 +2768,7 @@
             // Refresh layout to update visuals
             relayoutAllOccupants();
 
-            // Record this color’s finishing position
+            // Record this color's finishing position
             finishOrder.push(color);
 
             // Count how many bots have finished
@@ -2760,7 +2812,6 @@
             nextTurn(true);
         }
 
-
         function endGameWithMessage(message) {
             gameActive = false; // Stop the game
             winText.textContent = message;
@@ -2799,6 +2850,14 @@
             }
         }
 
+        function playWallSound() {
+            if (!soundEnabled) return;
+            if (wallSound) {
+                wallSound.currentTime = 0;
+                wallSound.play().catch(e => console.log("Wall sound play failed:", e));
+            }
+        }
+
         function playWinSound() {
             if (!soundEnabled) return;
             if (winSound) {
@@ -2832,6 +2891,10 @@
                 if (gotiMoveSound) {
                     gotiMoveSound.pause();
                     gotiMoveSound.currentTime = 0;
+                }
+                if (wallSound) {
+                    wallSound.pause();
+                    wallSound.currentTime = 0;
                 }
                 if (winSound) {
                     winSound.pause();
@@ -3386,18 +3449,18 @@
                     arrow.style.animation = 'none';
                     if (cfg.dir === 'up') {
                         arrow.style.left = '50%';
-                        arrow.style.top = '4px';
+                        arrow.style.top = '-15px';
                         arrow.style.transform = 'translateX(-50%)';
                     } else if (cfg.dir === 'down') {
                         arrow.style.left = '50%';
-                        arrow.style.bottom = '4px';
+                        arrow.style.bottom = '-15px';
                         arrow.style.transform = 'translateX(-50%)';
                     } else if (cfg.dir === 'left') {
-                        arrow.style.left = '4px';
+                        arrow.style.left = '-15px';
                         arrow.style.top = '50%';
                         arrow.style.transform = 'translateY(-50%)';
                     } else if (cfg.dir === 'right') {
-                        arrow.style.right = '4px';
+                        arrow.style.right = '-15px';
                         arrow.style.top = '50%';
                         arrow.style.transform = 'translateY(-50%)';
                     }
