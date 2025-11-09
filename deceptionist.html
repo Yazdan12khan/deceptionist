@@ -266,6 +266,8 @@
             transition: all 0.3s;
             width: 100%;
             box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            display: none;
+            /* Hidden by default, only shown when needed */
         }
 
         #place-wall-btn-mobile:hover {
@@ -487,6 +489,8 @@
             transition: all 0.3s;
             width: 100%;
             box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            display: none;
+            /* Hidden by default, only shown when needed */
         }
 
         #place-wall-btn:hover {
@@ -888,6 +892,8 @@
             .face {
                 width: 60px;
                 height: 60px;
+                border: 1px solid #2d3748;
+                /* Fixed border for mobile */
             }
 
             .dot {
@@ -970,6 +976,8 @@
             .face {
                 width: 50px;
                 height: 50px;
+                border: 1px solid #2d3748;
+                /* Fixed border for mobile */
             }
 
             .dot {
@@ -1142,8 +1150,8 @@
             }
 
             .goti {
-                width: 24px;
-                height: 24px;
+                width: 20px;
+                height: 20px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.2);
             }
 
@@ -1165,6 +1173,8 @@
             .face {
                 width: 60px;
                 height: 60px;
+                border: 1px solid #2d3748;
+                /* Fixed border for mobile */
             }
 
             .dot {
@@ -2044,6 +2054,27 @@
             const displayText = `Current Turn: ${color.charAt(0).toUpperCase() + color.slice(1)}`;
             currentTurnEl.textContent = displayText;
             currentTurnElMobile.textContent = displayText;
+
+            // Update dice color in mobile view
+            updateDiceColor(color);
+        }
+
+        // Update dice color in mobile view
+        function updateDiceColor(color) {
+            const colorMap = {
+                yellow: '#ffd500',
+                green: '#68DD00',
+                blue: '#3370ff',
+                red: '#ff4d4d'
+            };
+
+            const diceColor = colorMap[color] || '#ffffff';
+
+            // Update dice background color
+            const diceFaces = document.querySelectorAll('#dice-mobile .face');
+            diceFaces.forEach(face => {
+                face.style.background = diceColor;
+            });
         }
 
         // Update piece visibility based on active colors
@@ -2082,9 +2113,8 @@
             moveSteps = rollValue;
             canPlaceWallThisTurn = (rollValue === 6);
 
-            // Enable wall placement button if applicable
-            placeWallBtn.disabled = !canPlaceWallThisTurn || wallCounts[color] <= 0;
-            placeWallBtnMobile.disabled = !canPlaceWallThisTurn || wallCounts[color] <= 0;
+            // Show/hide wall placement button based on conditions
+            updateWallButtonVisibility();
 
             const gotiData = gotis[color];
 
@@ -2115,6 +2145,31 @@
             }
         }
 
+        // Update wall button visibility
+        function updateWallButtonVisibility() {
+            const color = turnOrder[currentTurn];
+            const isHumanTurn = color && !botColors.has(color);
+            const shouldShowWallButton = isHumanTurn && canPlaceWallThisTurn && wallCounts[color] > 0 && gameActive;
+
+            // Desktop
+            if (shouldShowWallButton) {
+                placeWallBtn.style.display = 'block';
+                placeWallBtn.disabled = false;
+            } else {
+                placeWallBtn.style.display = 'none';
+                placeWallBtn.disabled = true;
+            }
+
+            // Mobile
+            if (shouldShowWallButton) {
+                placeWallBtnMobile.style.display = 'block';
+                placeWallBtnMobile.disabled = false;
+            } else {
+                placeWallBtnMobile.style.display = 'none';
+                placeWallBtnMobile.disabled = true;
+            }
+        }
+
         // Process the roll result
         function processRoll(color, gotiData) {
             // Locked/unlock logic: must roll 6 to enter the board
@@ -2124,8 +2179,7 @@
                     placeGotiAtCell(color, gotiData.r, gotiData.c);
                     relayoutAllOccupants();
                     canPlaceWallThisTurn = false;
-                    placeWallBtn.disabled = true;
-                    placeWallBtnMobile.disabled = true;
+                    updateWallButtonVisibility();
 
                     // Auto-advance turn
                     nextTurn();
@@ -2180,8 +2234,7 @@
                 if (placed) {
                     hasPlacedWallThisTurn = true;
                     canPlaceWallThisTurn = false;
-                    placeWallBtn.disabled = true;
-                    placeWallBtnMobile.disabled = true;
+                    updateWallButtonVisibility();
                     clearAllHighlights();
                     exitWallPlacementMode();
                     nextTurn();
@@ -2197,8 +2250,7 @@
             if (reachableTargets.has(key) && key !== bfsStartKey) {
                 // If player chooses to move, they forfeit wall placement this turn
                 canPlaceWallThisTurn = false;
-                placeWallBtn.disabled = true;
-                placeWallBtnMobile.disabled = true;
+                updateWallButtonVisibility();
 
                 if (placingWall) exitWallPlacementMode();
 
@@ -2663,9 +2715,8 @@
             rollBtnMobile.style.opacity = isHumanTurn && gameActive ? '1' : '0.6';
             rollBtnMobile.style.cursor = isHumanTurn && gameActive ? 'pointer' : 'not-allowed';
 
-            // Update wall button state
-            placeWallBtn.disabled = !isHumanTurn || !canPlaceWallThisTurn || wallCounts[color] <= 0 || !gameActive;
-            placeWallBtnMobile.disabled = !isHumanTurn || !canPlaceWallThisTurn || wallCounts[color] <= 0 || !gameActive;
+            // Update wall button visibility
+            updateWallButtonVisibility();
 
             // Tint roll and wall buttons to current player's color for clarity
             const colorMapBtn = {
@@ -2732,8 +2783,7 @@
             hasRolledThisTurn = false;
             canPlaceWallThisTurn = false;
             hasPlacedWallThisTurn = false;
-            placeWallBtn.disabled = true;
-            placeWallBtnMobile.disabled = true;
+            updateWallButtonVisibility();
             placeWallBtn.textContent = 'Place Wall';
             placeWallBtnMobile.textContent = 'Place Wall';
 
