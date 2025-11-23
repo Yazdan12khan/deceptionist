@@ -318,7 +318,7 @@
         <h1 class="game-title">DECEPTIONIST</h1>
         <p class="subtitle">"NOT ALL EXITS ARE ESCAPE"</p>
         <button class="open-book-btn">OPEN RULE BOOK</button><br>
-        <a class="play" href="./deceptionist.html">Play Now</a>
+        <a class="play" href="./check.html">Play Now</a>
     </div>
 
     <div class="book-container">
@@ -333,7 +333,7 @@
                 <!-- PAGE 1 -->
                 <div class="page active" id="page1">
                     <div class="page-header">
-                        <a href="./deceptionist.html" class="skip-link">Skip</a>
+                        <a href="./check.html" class="skip-link">Skip</a>
                         <h2>How to Play</h2>
                         <button class="close-book">×</button>
                     </div>
@@ -365,7 +365,7 @@
                 <!-- PAGE 2 -->
                 <div class="page" id="page2">
                     <div class="page-header">
-                        <a href="./deceptionist.html" class="skip-link">Skip</a>
+                        <a href="./check.html" class="skip-link">Skip</a>
                         <h2>Walls</h2>
                         <button class="close-book">×</button>
                     </div>
@@ -396,7 +396,7 @@
                 <!-- PAGE 3 -->
                 <div class="page" id="page3">
                     <div class="page-header">
-                        <a href="./deceptionist.html" class="skip-link">Skip</a>
+                        <a href="./check.html" class="skip-link">Skip</a>
                         <h2>Winning (1v3)</h2>
                         <button class="close-book">×</button>
                     </div>
@@ -424,7 +424,7 @@
                 <!-- PAGE 4 -->
                 <div class="page" id="page4">
                     <div class="page-header">
-                        <a href="./deceptionist.html" class="skip-link">Skip</a>
+                        <a href="./check.html" class="skip-link">Skip</a>
                         <h2>Ready to Play?</h2>
                         <button class="close-book">×</button>
                     </div>
@@ -488,7 +488,7 @@
 
             prevBtns.forEach(btn => btn.addEventListener('click', () => currentPage > 0 && showPage(currentPage - 1)));
             nextBtns.forEach(btn => btn.addEventListener('click', () => currentPage < pages.length - 1 && showPage(currentPage + 1)));
-            playGameBtn.addEventListener('click', () => window.location.href = 'deceptionist.html');
+            playGameBtn.addEventListener('click', () => window.location.href = 'check.html');
         });
     </script>
 </body>
