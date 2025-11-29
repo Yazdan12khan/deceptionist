@@ -72,6 +72,43 @@
             margin-left: auto;
         }
 
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding: 0 15px;
+            pointer-events: none;
+        }
+
+        .notification {
+            background: linear-gradient(135deg, #68DD00, #4db200);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 15px rgba(104, 221, 0, 0.3);
+            font-size: 14px;
+            font-weight: 500;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.hide {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
         /* Hamburger Menu Dropdown */
         .hamburger-dropdown {
             position: fixed;
@@ -155,9 +192,12 @@
         }
 
         #current-turn-mobile {
-            font-size: 16px;
-            font-weight: bold;
-            color: #e2e8f0;
+            font-size: 14px;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            color: #fff;
+            display: inline-block;
             margin-bottom: 5px;
         }
 
@@ -179,20 +219,18 @@
         /* Board Section */
         .board-section {
             width: 100%;
-            margin: 10px 0;
+            margin-top: 24px;
         }
 
         .outer-box {
             position: relative;
             width: 100%;
-            /* Reduced height so board is shorter on phones */
-            height: 36vh;
+            height: 40vh;
             background-image: url('board_bg.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            border: 4px solid #2d3748;
-            padding: 0.5%;
+            padding: 3px 3px;
             box-sizing: border-box;
             display: flex;
             justify-content: center;
@@ -207,7 +245,7 @@
             display: grid;
             grid-template-columns: repeat(17, 1fr);
             grid-template-rows: repeat(14, 1fr);
-            gap: 0.3vw;
+            gap: 0.6vw;
             width: 100%;
             height: 100%;
             overflow: visible;
@@ -215,21 +253,20 @@
         }
 
         .grid-item {
-            background: transparent;
             border-radius: 3px;
-            border: 2px solid rgba(0, 0, 0, 0.6);
+            border: 1px solid #000000;
             width: 100%;
             height: 100%;
             position: relative;
             overflow: visible;
             cursor: pointer;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
         }
 
         .location-icon {
             position: absolute;
             top: 50%;
             left: 50%;
-            /* nudge slightly downward on mobile so top entry icons sit lower */
             transform: translate(-50%, -40%);
             width: 16px;
             height: 16px;
@@ -242,8 +279,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
             z-index: 2;
             transition: all 0.3s ease;
@@ -377,7 +414,6 @@
             width: 100%;
         }
 
-        /* hide the original roll button (we'll use the dice icon instead) */
         #roll-btn-mobile {
             display: none !important;
         }
@@ -410,12 +446,10 @@
             cursor: not-allowed;
         }
 
-        /* Make place-wall button visibly faded when disabled */
         #place-wall-btn-mobile:disabled {
             opacity: 0.5;
         }
 
-        /* dice icon button to replace roll btn on mobile */
         .dice-icon-btn {
             width: 54px;
             height: 54px;
@@ -441,7 +475,6 @@
             height: 36px;
         }
 
-        /* subtle bounce animation */
         @keyframes dicePulse {
             0% {
                 transform: translateY(0);
@@ -463,8 +496,8 @@
         /* Wall Stacks */
         #wall-stacks {
             position: absolute;
-            bottom: 0%;
-            right: 2%;
+            bottom: 1%;
+            right: 1%;
             display: flex;
             gap: 1vw;
             justify-content: center;
@@ -780,11 +813,45 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            flex: 1;
+            width: 100%;
         }
 
         #reset-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            flex: 1;
+            text-decoration: none;
+        }
+
+        #buy-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #FF9800, #e68900);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            flex: 1;
+            width: 100%;
+        }
+
+        #buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
         }
 
         /* Entry Arrows */
@@ -854,17 +921,18 @@
             </div>
         </div>
 
+        <!-- Notification Container -->
+        <div class="notification-container" id="notification-container"></div>
+
         <!-- Main Content -->
         <div class="mobile-content">
             <!-- Turn Info Section -->
             <div class="turn-info-section">
                 <div class="turn-info-left">
                     <div id="current-turn-mobile">This Turn: Yellow</div>
-                    <div class="turn-label">This Turn</div>
                 </div>
                 <div class="turn-info-right">
                     <div id="you-are-mobile">You are: <strong id="you-color-mobile">Yellow</strong></div>
-                    <div class="turn-label">Your Color</div>
                 </div>
             </div>
 
@@ -988,7 +1056,10 @@
     <div id="win-overlay">
         <div class="win-card">
             <div id="win-text"></div>
-            <button id="reset-btn">Play Again</button>
+            <div class="button-container">
+                <button id="reset-btn">PlayMore</button>
+                <a href="./index.html" target="_blank"><button id="buy-btn">BuyNow</button></a>
+            </div>
         </div>
     </div>
 
@@ -1010,7 +1081,7 @@
     </audio>
 
     <script>
-        // Game variables and state (same as before)
+        // Game variables and state
         const rows = 14;
         const cols = 17;
         const pinSVG = '<svg viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
@@ -1086,6 +1157,7 @@
         const settingsModal = document.getElementById('settings-modal');
         const closeSettingsBtn = document.getElementById('close-settings');
         const soundToggle = document.getElementById('sound-toggle');
+        const notificationContainer = document.getElementById('notification-container');
 
         // Audio elements
         const diceSound = document.getElementById('dice-sound');
@@ -1093,6 +1165,32 @@
         const winSound = document.getElementById('win-sound');
         const loseSound = document.getElementById('lose-sound');
         const wallSound = document.getElementById('wall-sound');
+    
+        // Notification System
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+
+            notificationContainer.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Hide and remove notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.classList.add('hide');
+
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 400);
+            }, 3000);
+        }
 
         // Initialize game
         function initGame() {
@@ -1137,7 +1235,6 @@
 
             // Home icon functionality
             homeIcon.addEventListener('click', () => {
-                // Add home functionality here, e.g., go to main menu
                 window.location.href = 'index.html';
             });
         }
@@ -1185,7 +1282,6 @@
             setupHamburgerMenu();
 
             // Roll button
-            // rollBtnMobile is hidden on mobile; the dice icon proxies the roll
             rollBtnMobile.addEventListener('click', handleRoll);
 
             // Dice click handlers
@@ -1201,7 +1297,6 @@
             const diceIcon = document.getElementById('dice-icon-mobile');
             if (diceIcon) {
                 diceIcon.addEventListener('click', () => {
-                    // respect same disabled logic as rollBtnMobile
                     if (rollBtnMobile && rollBtnMobile.disabled) return;
                     handleRoll();
                 });
@@ -1210,7 +1305,7 @@
             // Reset button
             resetBtn.addEventListener('click', () => {
                 localStorage.removeItem('deceptionist_game_state');
-                window.location.href = 'deceptionist.html';
+                window.location.href = 'index.html';
             });
 
             // Color selection
@@ -1252,10 +1347,7 @@
 
             sixOk?.addEventListener('click', () => {
                 hideSixInfo();
-                if (shouldSpeedOnSixOk) {
-                    botSpeedMultiplier = 2;
-                    shouldSpeedOnSixOk = false;
-                }
+                shouldSpeedOnSixOk = false;
             });
         }
 
@@ -1294,6 +1386,11 @@
             const displayText = `This Turn: ${color.charAt(0).toUpperCase() + color.slice(1)}`;
             currentTurnElMobile.textContent = displayText;
             updateDiceColor(color);
+
+            // Show notification for human turn
+            if (color === humanColor) {
+                showNotification("Hey dear, your turn, roll dice");
+            }
         }
 
         // Update dice color
@@ -1493,7 +1590,7 @@
             stepAnim();
         }
 
-        // Bot logic (simplified for brevity)
+        // Bot logic
         function botTakeTurnIfNeeded() {
             const color = turnOrder[currentTurn];
             const token = turnSeq;
@@ -1533,8 +1630,32 @@
                 bfsParents = parents;
                 bfsStartKey = startKey;
 
-                // Bot wall placement logic would go here
-                // For now, just move the bot
+                // Bot wall placement strategy
+                if (rollValue === 6 && wallCounts[color] > 0 && canPlaceWallThisTurn) {
+                    const wallTarget = chooseBestWallPlacementForBot(color, gotiData.r, gotiData.c);
+                    if (wallTarget) {
+                        const shouldPlaceWall = Math.random() < 0.8;
+
+                        if (shouldPlaceWall) {
+                            const [wr, wc] = wallTarget;
+                            if (placeWall(color, wr, wc)) {
+                                hasPlacedWallThisTurn = true;
+                                canPlaceWallThisTurn = false;
+
+                                // Check if wall is near human player
+                                const humanData = gotis[humanColor];
+                                if (isWallNearHuman(wr, wc, humanData.r, humanData.c)) {
+                                    showNotification(`${color.charAt(0).toUpperCase() + color.slice(1)} has blocked you, take next turn`);
+                                }
+
+                                nextTurn();
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // Otherwise, move the bot toward best target
                 setTimeout(() => {
                     if (token !== turnSeq) return;
                     if (!gameActive) return;
@@ -1547,6 +1668,12 @@
                     }
                 }, 400 / Math.max(1, botSpeedMultiplier));
             });
+        }
+
+        // Check if wall is near human player (within 4 blocks)
+        function isWallNearHuman(wallR, wallC, humanR, humanC) {
+            const distance = Math.abs(wallR - humanR) + Math.abs(wallC - humanC);
+            return distance <= 4;
         }
 
         // Choose best target for bot
@@ -1570,10 +1697,12 @@
                 const len = Math.max(0, pathToGoal.length - 1);
 
                 let minOppDist = Infinity;
+                let threatCount = 0;
                 for (const op of opponentPositions) {
                     if (!op) continue;
                     const d = manhattan([r, c], [op.r, op.c]);
                     if (d < minOppDist) minOppDist = d;
+                    if (d <= 3) threatCount++;
                 }
                 if (minOppDist === Infinity) minOppDist = 10;
 
@@ -1583,13 +1712,15 @@
                         const k = `${r + dr}-${c + dc}`;
                         if (wallCellToOwner.has(k)) {
                             const w = wallCellToOwner.get(k);
-                            if (w && w.owner !== color) wallPenalty += 1;
-                            else wallPenalty += 0.2;
+                            if (w && w.owner !== color) wallPenalty += 1.5;
+                            else wallPenalty += 0.1;
                         }
                     }
                 }
 
-                const score = len * 10 - Math.min(8, minOppDist) * 3 + wallPenalty * 6;
+                const threatAvoidance = Math.max(0, 5 - minOppDist) * 2;
+                const score = len * 10 - Math.min(8, minOppDist) * 2 + wallPenalty * 7 + threatAvoidance;
+
                 if (score < bestScore) {
                     bestScore = score;
                     bestKey = key;
@@ -1606,6 +1737,199 @@
             }
 
             return bestKey;
+        }
+
+        // Choose best cell to place a wall to block opponents
+        function chooseBestWallPlacementForBot(color, botR, botC) {
+            const opponents = turnOrder.filter(c => c !== color && !completed[c]);
+            if (opponents.length === 0) return null;
+
+            let bestWallCell = null;
+            let bestWallScore = -Infinity;
+
+            function manhattan(a, b) {
+                return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+            }
+
+            let mostThreateningOpponent = null;
+            let minDistanceToGoal = Infinity;
+
+            opponents.forEach(oppColor => {
+                const oppData = gotis[oppColor];
+                if (!oppData) return;
+
+                const goals = { yellow: centerRed, red: centerYellow, green: centerBlue, blue: centerGreen };
+                const goal = goals[oppColor];
+                const distance = manhattan([oppData.r, oppData.c], goal);
+
+                if (distance < minDistanceToGoal) {
+                    minDistanceToGoal = distance;
+                    mostThreateningOpponent = oppColor;
+                }
+            });
+
+            if (!mostThreateningOpponent) return null;
+
+            const threatData = gotis[mostThreateningOpponent];
+            const threatGoals = { yellow: centerRed, red: centerYellow, green: centerBlue, blue: centerGreen };
+            const threatGoal = threatGoals[mostThreateningOpponent];
+
+            const threatPath = computePath([threatData.r, threatData.c], threatGoal) || [];
+
+            const cellsToCheck = new Set();
+
+            for (let i = 0; i < Math.min(threatPath.length, 6); i++) {
+                const [r, c] = threatPath[i];
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        const nr = r + dr;
+                        const nc = c + dc;
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                            cellsToCheck.add(`${nr}-${nc}`);
+                        }
+                    }
+                }
+            }
+
+            for (let dr = -3; dr <= 3; dr++) {
+                for (let dc = -3; dc <= 3; dc++) {
+                    const nr = threatData.r + dr;
+                    const nc = threatData.c + dc;
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                        cellsToCheck.add(`${nr}-${nc}`);
+                    }
+                }
+            }
+
+            cellsToCheck.forEach(cellKey => {
+                const [r, c] = cellKey.split('-').map(Number);
+
+                if (!positionToElement[cellKey]) return;
+                if (wallCellToOwner.has(cellKey)) return;
+                const cell = positionToElement[cellKey];
+                if (cell && cell.querySelector('.location-icon')) return;
+
+                let occupied = false;
+                for (const col of allColors) {
+                    const info = gotis[col];
+                    if (info && info.r === r && info.c === c) {
+                        occupied = true;
+                        break;
+                    }
+                }
+                if (occupied) return;
+
+                let wallScore = 0;
+
+                if (threatPath.some(([pr, pc]) => pr === r && pc === c)) {
+                    wallScore += 50;
+                }
+
+                const originalPathLength = threatPath.length;
+
+                wallCellToOwner.set(cellKey, { owner: color, remainingTurns: 3 });
+                const newPath = computePath([threatData.r, threatData.c], threatGoal) || [];
+                wallCellToOwner.delete(cellKey);
+
+                const newPathLength = newPath.length;
+                const pathIncrease = newPathLength - originalPathLength;
+
+                if (pathIncrease > 0) {
+                    wallScore += pathIncrease * 8;
+                } else if (newPathLength === 0) {
+                    wallScore += 40;
+                }
+
+                const distToThreat = manhattan([r, c], [threatData.r, threatData.c]);
+                if (distToThreat <= 2) {
+                    wallScore += (3 - distToThreat) * 10;
+                } else if (distToThreat <= 4) {
+                    wallScore += (5 - distToThreat) * 4;
+                }
+
+                opponents.forEach(oppColor => {
+                    if (oppColor === mostThreateningOpponent) return;
+
+                    const oppData = gotis[oppColor];
+                    if (!oppData) return;
+
+                    const oppGoals = { yellow: centerRed, red: centerYellow, green: centerBlue, blue: centerGreen };
+                    const oppGoal = oppGoals[oppColor];
+
+                    wallCellToOwner.set(cellKey, { owner: color, remainingTurns: 3 });
+                    const oppOriginalPath = computePath([oppData.r, oppData.c], oppGoal) || [];
+                    const oppNewPath = computePath([oppData.r, oppData.c], oppGoal) || [];
+                    wallCellToOwner.delete(cellKey);
+
+                    const oppPathIncrease = oppNewPath.length - oppOriginalPath.length;
+                    if (oppPathIncrease > 0) {
+                        wallScore += oppPathIncrease * 6;
+                    }
+                });
+
+                let chokepointScore = 0;
+                opponents.forEach(oppColor => {
+                    const oppData = gotis[oppColor];
+                    if (!oppData) return;
+
+                    const oppGoals = { yellow: centerRed, red: centerYellow, green: centerBlue, blue: centerGreen };
+                    const oppGoal = oppGoals[oppColor];
+                    const oppPath = computePath([oppData.r, oppData.c], oppGoal) || [];
+
+                    if (oppPath.some(([pr, pc]) => pr === r && pc === c)) {
+                        chokepointScore += 3;
+                    }
+                });
+                wallScore += chokepointScore;
+
+                const distToSelf = manhattan([r, c], [botR, botC]);
+                if (distToSelf <= 2) {
+                    wallScore -= 15;
+                }
+
+                const selfGoals = { yellow: centerRed, red: centerYellow, green: centerBlue, blue: centerGreen };
+                const selfGoal = selfGoals[color];
+                wallCellToOwner.set(cellKey, { owner: color, remainingTurns: 3 });
+                const selfNewPath = computePath([botR, botC], selfGoal) || [];
+                wallCellToOwner.delete(cellKey);
+
+                if (selfNewPath.length === 0) {
+                    wallScore -= 30;
+                }
+
+                if (wallScore > bestWallScore && wallScore > 10) {
+                    bestWallScore = wallScore;
+                    bestWallCell = [r, c];
+                }
+            });
+
+            if (!bestWallCell) {
+                for (let dr = -2; dr <= 2; dr++) {
+                    for (let dc = -2; dc <= 2; dc++) {
+                        const r = threatData.r + dr;
+                        const c = threatData.c + dc;
+                        if (r < 0 || r >= rows || c < 0 || c >= cols) continue;
+
+                        const key = `${r}-${c}`;
+                        if (!positionToElement[key]) continue;
+                        if (wallCellToOwner.has(key)) continue;
+
+                        let occupied = false;
+                        for (const col of allColors) {
+                            const info = gotis[col];
+                            if (info && info.r === r && info.c === c) {
+                                occupied = true;
+                                break;
+                            }
+                        }
+                        if (!occupied) {
+                            return [r, c];
+                        }
+                    }
+                }
+            }
+
+            return bestWallCell;
         }
 
         // Wall placement functions
@@ -1663,6 +1987,10 @@
             walls[color].push({ r, c, remainingTurns });
             wallCellToOwner.set(key, { owner: color, remainingTurns });
             wallCounts[color] -= 1;
+
+            // Show wall placement notification
+            const colorName = color.charAt(0).toUpperCase() + color.slice(1);
+            showNotification(`${colorName} placed the wall`);
 
             updateWallsLeftUI();
             renderWallStacks();
@@ -1741,7 +2069,6 @@
 
             updateWallButtonVisibility();
 
-            // reflect state on dice icon
             const diceIcon = document.getElementById('dice-icon-mobile');
             if (diceIcon) {
                 if (!isHumanTurn || !gameActive) {
@@ -1838,6 +2165,17 @@
             relayoutAllOccupants();
             finishOrder.push(color);
 
+            const colorName = color.charAt(0).toUpperCase() + color.slice(1);
+            const position = finishOrder.indexOf(color) + 1;
+            const positionText = getPositionText(position);
+
+            // Show finish notification
+            if (turnOrder.length > 0) {
+                const nextPosition = finishOrder.length + 1;
+                const nextPositionText = getPositionText(nextPosition);
+                showNotification(`${colorName} has got ${positionText} position, lets fight for ${nextPositionText}`);
+            }
+
             let botsDone = 0;
             botColors.forEach(bc => { if (completed[bc]) botsDone++; });
 
@@ -1858,11 +2196,11 @@
                 const rank = finishOrder.indexOf(humanColor) + 1;
                 if (rank === 1) {
                     playWinSound();
-                    endGameWithMessage('You Win! You Got 1st Position');
+                    endGameWithMessage('You Win! You Got 1st Position, Buy Now!');
                 } else if (rank === 2) {
-                    endGameWithMessage('You Got 2nd Position, Better Luck Next Time!');
+                    endGameWithMessage('You Got 2nd Position, Better Luck Next Time, Buy Now!');
                 } else if (rank === 3) {
-                    endGameWithMessage('You Got 3rd Position, Try Again!');
+                    endGameWithMessage('You Got 3rd Position, Try Again, Buy Now!');
                 }
                 return;
             }
@@ -1870,6 +2208,16 @@
             gameActive = true;
             updateRollButtonState();
             nextTurn(true);
+        }
+
+        function getPositionText(position) {
+            switch (position) {
+                case 1: return '1st';
+                case 2: return '2nd';
+                case 3: return '3rd';
+                case 4: return '4th';
+                default: return position + 'th';
+            }
         }
 
         function endGameWithMessage(message) {
@@ -1996,7 +2344,7 @@
             }
         }
 
-        // Utility functions (abbreviated for space)
+        // Utility functions
         function neighborsOf(r, c) {
             const deltas = [[1, 0], [-1, 0], [0, 1], [0, -1]];
             const result = [];
@@ -2093,7 +2441,7 @@
                         el.classList.remove('highlighted-backward');
                         const baseBg = el.dataset.baseBg || '';
                         el.style.background = baseBg;
-                        el.style.border = el.dataset.baseBorder || '2px solid black';
+                        el.style.border = el.dataset.baseBorder || '2px solid #ffffff';
                     }
                 });
             }
@@ -2133,8 +2481,8 @@
             const cellHeightPct = 100 / rows;
             const sizePct = Math.min(cellWidthPct, cellHeightPct) * 0.7;
 
-            gotiData.goti.style.width = sizePct + '%';
-            gotiData.goti.style.height = sizePct + '%';
+            gotiData.goti.style.width = 'calc(' + sizePct + '% - 2px)';
+            gotiData.goti.style.height = 'calc(' + sizePct + '% - 2px)';
             gotiData.goti.style.left = (c * cellWidthPct + cellWidthPct / 2) + '%';
             gotiData.goti.style.top = (r * cellHeightPct + cellHeightPct / 2) + '%';
             gotiData.r = r;
@@ -2149,8 +2497,8 @@
             const cellH = 100 / rows;
             const sizePct = Math.min(cellW, cellH) * 0.7;
 
-            goti.style.width = sizePct + '%';
-            goti.style.height = sizePct + '%';
+            goti.style.width = 'calc(' + sizePct + '% - 2px)';
+            goti.style.height = 'calc(' + sizePct + '% - 2px)';
 
             void goti.offsetWidth;
 
@@ -2188,8 +2536,8 @@
             allColors.forEach(color => {
                 const g = gotis[color]?.goti;
                 if (g) {
-                    g.style.width = sizePct + '%';
-                    g.style.height = sizePct + '%';
+                    g.style.width = 'calc(' + sizePct + '% - 2px)';
+                    g.style.height = 'calc(' + sizePct + '% - 2px)';
 
                     if (isUnlocked[color]) {
                         const r = gotis[color].r;
@@ -2224,8 +2572,8 @@
                 if (!isUnlocked[color]) return;
                 const info = gotis[color];
                 const g = info.goti;
-                g.style.width = normalSize + '%';
-                g.style.height = normalSize + '%';
+                g.style.width = 'calc(' + normalSize + '% - 2px)';
+                g.style.height = 'calc(' + normalSize + '% - 2px)';
                 g.style.left = (info.c * cellW + cellW / 2) + '%';
                 g.style.top = (info.r * cellH + cellH / 2) + '%';
             });
@@ -2247,8 +2595,8 @@
                     const info = gotis[color];
                     const g = info.goti;
                     const off = offsets[Math.min(idx, offsets.length - 1)];
-                    g.style.width = smallSize + '%';
-                    g.style.height = smallSize + '%';
+                    g.style.width = 'calc(' + smallSize + '% - 2px)';
+                    g.style.height = 'calc(' + smallSize + '% - 2px)';
                     g.style.left = (c * cellW + cellW / 2 + off[0] * cellW) + '%';
                     g.style.top = (r * cellH + cellH / 2 + off[1] * cellH) + '%';
                 });
@@ -2401,7 +2749,7 @@
             }
         }
 
-        // Board creation functions (abbreviated)
+        // Board creation functions
         function createBoard() {
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
@@ -2429,8 +2777,14 @@
                 const c = parseInt(box.dataset.c);
                 positionToElement[`${r}-${c}`] = box;
 
-                if (!box.dataset.baseBorder) box.dataset.baseBorder = box.style.border || '2px solid black';
-                if (!box.dataset.baseBg) box.dataset.baseBg = box.style.background || '';
+                try {
+                    const cs = window.getComputedStyle(box);
+                    if (!box.dataset.baseBorder) box.dataset.baseBorder = cs.border || '2px solid #ffffff';
+                    if (!box.dataset.baseBg) box.dataset.baseBg = cs.background || '';
+                } catch (e) {
+                    if (!box.dataset.baseBorder) box.dataset.baseBorder = box.style.border || '2px solid #ffffff';
+                    if (!box.dataset.baseBg) box.dataset.baseBg = box.style.background || '';
+                }
             });
 
             paths = {
@@ -2475,33 +2829,35 @@
             box.dataset.r = r.toString();
             box.dataset.c = c.toString();
 
-            if (r === 0 && [8].includes(c)) {
+            if (r === 0 && [8, 7, 9].includes(c)) {
                 box.style.background = 'yellow';
-                box.style.border = '3px solid black';
+                box.style.border = '1px solid black';
                 if (c === 8) {
                     box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
                     icon.className = 'location-icon';
                     icon.innerHTML = pinSVG;
-                    icon.style.transform = 'translate(-50%, -50%) rotate(180deg)';
+                    icon.style.transform = 'translate(-50%, 10%) rotate(180deg)';
+                    icon.style.fontSize = '23px';
                     box.appendChild(icon);
                 }
             }
-            else if ((r === 7) && c === 0) {
+            else if ((r === 7, 6, 8) && c === 0) {
                 box.style.background = '#68DD00';
-                box.style.border = '3px solid black';
+                box.style.border = '1px solid black';
                 if (r === 7) {
                     box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
                     icon.className = 'location-icon';
                     icon.innerHTML = pinSVG;
-                    icon.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+                    icon.style.fontSize = '18px';
+                    icon.style.transform = 'translate(-30%, -50%) rotate(90deg)';
                     box.appendChild(icon);
                 }
             }
-            else if ((r === 7) && c === cols - 1) {
+            else if ((r === 7, 6, 8) && c === cols - 1) {
                 box.style.background = 'blue';
-                box.style.border = '3px solid black';
+                box.style.border = '1px solid black';
                 if (r === 7) {
                     box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
@@ -2511,9 +2867,9 @@
                     box.appendChild(icon);
                 }
             }
-            else if (r === rows - 1 && (c === 8)) {
+            else if (r === rows - 1 && (c === 8, 9, 7)) {
                 box.style.background = 'red';
-                box.style.border = '3px solid black';
+                box.style.border = '1px solid black';
                 if (c === 8) {
                     box.classList.add('has-location-icon');
                     const icon = document.createElement('div');
@@ -2550,11 +2906,6 @@
                 gotis[color] = { goti: goti, r: startPos[0], c: startPos[1] };
                 currentPositions[color] = 0;
                 placeGotiAtHome(color);
-
-                goti.style.position = 'absolute';
-                document.querySelector('.outer-box').appendChild(goti);
-                gotis[color] = { goti: goti, r: startPos[0], c: startPos[1] };
-                currentPositions[color] = 0;
             });
             renderEntryArrows();
         }

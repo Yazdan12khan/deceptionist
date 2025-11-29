@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Win! - Deceptionist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .win-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .win-card {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .win-text {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        #reset-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        #buy-btn {
+            background: linear-gradient(135deg, #FF9800, #e68900);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        #buy-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+        }
+
+        .trophy {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            animation: confetti-fall 5s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="win-overlay" class="win-overlay">
+        <!-- Confetti Effect -->
+        <div id="confetti-container"></div>
+        
+        <div class="win-card">
+            <div class="trophy">🏆</div>
+            <div class="win-text">
+                You Win! You Got 1st Position<br>
+                <small style="font-size: 20px; margin-top: 10px; display: block;">
+                    Want To Become A Deceptionist?
+                </small>
+            </div>
+            <div class="buttons-container">
+                <button id="reset-btn" class="btn" onclick="playAgain()">Play Again</button>
+                <a href="../index.html" target="_blank">
+                    <button id="buy-btn" class="btn">Buy Now</button>
+                </a>
+                <button id="test-btn" class="btn" onclick="testOtherMessages()" 
+                        style="background: linear-gradient(135deg, #3370ff, #2158d8);">
+                    Test Other Messages
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden audio for win sound -->
+    <audio id="win-sound" preload="auto">
+        <source src="win.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                container.appendChild(confetti);
+            }
+        }
+
+        // Play win sound
+        function playWinSound() {
+            const winSound = document.getElementById('win-sound');
+            if (winSound) {
+                winSound.currentTime = 0;
+                winSound.play().catch(e => console.log('Win sound play failed:', e));
+            }
+        }
+
+        // Play again function
+        function playAgain() {
+            alert('Play Again clicked! In actual game, this would restart the game.');
+            // In actual implementation: window.location.href = 'game.html';
+        }
+
+        // Test other messages
+        function testOtherMessages() {
+            const messages = [
+                "You Got 2nd Position, Better Luck Next Time!",
+                "You Got 3rd Position, Try Again!",
+                "You Lose! Read & Understand Rules.",
+                "Game Over - All Players Finished!"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.querySelector('.win-text').innerHTML = randomMessage + 
+                '<br><small style="font-size: 20px; margin-top: 10px; display: block;">Want To Become A Deceptionist?</small>';
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            createConfetti();
+            playWinSound();
+            
+            // Auto-test different messages every 3 seconds (for testing)
+            let messageIndex = 0;
+            const testMessages = [
+                "You Win! You Got 1st Position",
+                "You Got 2nd Position, Better Luck Next Time!",
+                "You Got 3rd Position, Try Again!",
+                "You Lose! Read & Understand Rules."
+            ];
+            
+            setInterval(() => {
+                if (messageIndex < testMessages.length - 1) {
+                    messageIndex++;
+                } else {
+                    messageIndex = 0;
+                }
+                document.querySelector('.win-text').innerHTML = testMessages[messageIndex] + 
+                    '<br><small style="font-size: 20px; margin-top: 10px; display: block;">Want To Become A Deceptionist?</small>';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
