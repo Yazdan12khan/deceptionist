@@ -1058,7 +1058,7 @@
             <div id="win-text"></div>
             <div class="button-container">
                 <button id="reset-btn">PlayMore</button>
-                <a href="./index.html" target="_blank"><button id="buy-btn">BuyNow</button></a>
+                <a href="" target="_blank"><button id="buy-btn">BuyNow</button></a>
             </div>
         </div>
     </div>
@@ -1355,6 +1355,8 @@
         function startGame() {
             colorSelection.style.display = 'none';
             showOnboardingFor(humanColor);
+            // After the player makes a selection, render entry arrows (they are hidden while selecting)
+            renderEntryArrows();
         }
 
         // Apply mode settings
@@ -1386,11 +1388,6 @@
             const displayText = `This Turn: ${color.charAt(0).toUpperCase() + color.slice(1)}`;
             currentTurnElMobile.textContent = displayText;
             updateDiceColor(color);
-
-            // Show notification for human turn
-            if (color === humanColor) {
-                showNotification("Hey dear, your turn, roll dice");
-            }
         }
 
         // Update dice color
@@ -1990,7 +1987,6 @@
 
             // Show wall placement notification
             const colorName = color.charAt(0).toUpperCase() + color.slice(1);
-            showNotification(`${colorName} placed the wall`);
 
             updateWallsLeftUI();
             renderWallStacks();
@@ -2911,6 +2907,13 @@
         }
 
         function renderEntryArrows() {
+            // If the color selection overlay is visible, remove any existing arrows and skip rendering.
+            const colorSel = document.getElementById('color-selection');
+            if (colorSel && colorSel.style.display !== 'none') {
+                document.querySelectorAll('.entry-arrow').forEach(e => e.remove());
+                return;
+            }
+
             document.querySelectorAll('.entry-arrow').forEach(e => e.remove());
             const outer = document.querySelector('.outer-box');
             if (!outer) return;
