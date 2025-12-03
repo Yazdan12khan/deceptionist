@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deceptionist Rule Book</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Exo+2:wght@300;500;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,8 +16,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #0c0c1d 100%);
             color: #fff;
             min-height: 100vh;
             display: flex;
@@ -22,76 +25,288 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             text-align: center;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            animation: bounceIn 1.2s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .logo-frame {
+            width: 200px;
+            height: 200px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(255, 78, 80, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+            position: relative;
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 10px 25px rgba(255, 78, 80, 0.3);
+            }
+
+            to {
+                box-shadow: 0 10px 35px rgba(255, 78, 80, 0.6), 0 0 50px rgba(255, 78, 80, 0.2);
+            }
+        }
+
+        .logo-frame img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .logo-frame:hover img {
+            transform: scale(1.05) rotate(5deg);
         }
 
         .game-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
             background: linear-gradient(to right, #f9d423, #ff4e50);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+            animation: titleSlideIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes titleSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            margin-bottom: 2.5rem;
             color: #a0a0c0;
-            font-weight: 300;
+            font-weight: 500;
+            letter-spacing: 1px;
+            min-height: 60px;
+            animation: fadeIn 1s ease-out 0.6s both;
         }
 
-        .open-book-btn {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .subtitle-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #f9d423;
+            animation: typing 3s steps(20, end), blink-caret 1.2s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #f9d423
+            }
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            animation: fadeIn 1s ease-out 0.9s both;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
             color: white;
             border: none;
-            padding: 16px 40px;
-            font-size: 1.2rem;
-            border-radius: 50px;
+            padding: 16px 36px;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 78, 80, 0.3);
+            box-shadow: 0 6px 15px rgba(255, 78, 80, 0.3);
+            font-family: 'Exo 2', sans-serif;
             font-weight: 600;
             letter-spacing: 1px;
-            margin-bottom: 2rem;
+            text-decoration: none;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            animation: buttonPulse 2s infinite;
         }
 
-        .open-book-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(255, 78, 80, 0.4);
+        @keyframes buttonPulse {
+            0% {
+                box-shadow: 0 6px 15px rgba(255, 78, 80, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 6px 20px rgba(255, 78, 80, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 6px 15px rgba(255, 78, 80, 0.3);
+            }
         }
 
-        .open-book-btn:active {
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(255, 78, 80, 0.5);
+        }
+
+        .action-btn:active {
             transform: translateY(1px);
         }
 
+        .play-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+            animation: buttonPulseGreen 2s infinite;
+        }
+
+        @keyframes buttonPulseGreen {
+            0% {
+                box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+            }
+        }
+
+        .play-btn:hover {
+            box-shadow: 0 12px 25px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Book Overlay - Refined with Elegant Folding */
         .book-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 100;
-            padding: 20px;
+            padding: 15px;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .book {
-            width: 90%;
-            max-width: 900px;
-            height: 80vh;
-            perspective: 2000px;
+            width: 95%;
+            max-width: 850px;
+            height: 85vh;
+            perspective: 1800px;
             position: relative;
         }
 
@@ -99,61 +314,165 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #1a1a2e, #16213e);
-            border-radius: 10px 20px 20px 10px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 12px 20px 20px 12px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset -5px 0 15px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transform-origin: left center;
-            transition: transform 1s ease-in-out;
+            transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: 10;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            text-align: center;
+            animation: bookEntrance 0.8s ease-out;
         }
 
+        @keyframes bookEntrance {
+            from {
+                opacity: 0;
+                transform: scale(0.9) rotateY(15deg) translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0) translateX(0);
+            }
+        }
+
+        /* .book-cover:hover {
+    transform: rotateY(-5deg) translateX(-2px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        inset -5px 0 20px rgba(0, 0, 0, 0.4);
+} */
+
         .book-cover.open {
-            transform: rotateY(-180deg);
+            transform: rotateY(-160deg) translateX(-5px);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .cover-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #ff4e50 0%, #f9d423 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            box-shadow:
+                0 10px 25px rgba(255, 78, 80, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+            animation: logoAppear 0.6s ease-out 0.3s both;
+        }
+
+        @keyframes logoAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotate(-10deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .cover-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .cover-logo:hover img {
+            transform: scale(1.05);
         }
 
         .cover-title {
-            font-size: 3.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #f9d423, #ff4e50);
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            animation: titleSlideIn 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes titleSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .cover-subtitle {
-            font-size: 1.2rem;
-            color: #a0a0c0;
-            font-weight: 300;
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: #b8b8d0;
             margin-bottom: 2rem;
+            line-height: 1.5;
+            max-width: 400px;
+            animation: subtitleFadeIn 0.8s ease-out 0.5s both;
+        }
+
+        @keyframes subtitleFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .open-text {
-            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
             color: #f9d423;
+            animation: gentlePulse 3s ease-in-out 0.6s infinite;
             margin-top: 2rem;
-            animation: pulse 2s infinite;
+            padding: 8px 16px;
+            border: 1px solid rgba(249, 212, 35, 0.3);
+            border-radius: 20px;
+            background: rgba(249, 212, 35, 0.1);
+            opacity: 0;
+            animation: gentlePulse 3s ease-in-out 0.6s infinite, fadeIn 0.5s ease-out 0.6s forwards;
         }
 
-        @keyframes pulse {
-            0% {
-                opacity: 0.7;
+        @keyframes gentlePulse {
+
+            0%,
+            100% {
+                opacity: 0.8;
+                transform: scale(1);
             }
 
             50% {
                 opacity: 1;
-            }
-
-            100% {
-                opacity: 0.7;
+                transform: scale(1.02);
             }
         }
 
@@ -161,154 +480,1056 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #f5f5f5;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
             overflow: hidden;
             display: none;
-            color: #333;
+            color: #2d3748;
+            animation: contentReveal 0.8s ease-out 0.3s both;
+            transform-origin: right center;
+        }
+
+        @keyframes contentReveal {
+            from {
+                opacity: 0;
+                transform: rotateY(20deg) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: rotateY(0) scale(1);
+            }
         }
 
         .page {
             position: absolute;
             width: 100%;
             height: 100%;
-            padding: 40px 30px 80px;
-            /* Adjusted padding to prevent overflow */
+            padding: 25px 20px 80px;
             overflow-y: auto;
             display: none;
         }
 
         .page.active {
             display: block;
+            animation: pageTurn 0.5s ease-out;
         }
 
-        .page h2 {
-            color: #16213e;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ff4e50;
+        @keyframes pageTurn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .page h3 {
-            color: #1a1a2e;
-            margin: 20px 0 10px;
-        }
-
-        .page ul {
-            margin-left: 20px;
-            margin-bottom: 20px;
-        }
-
-        .page li {
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-
-        .page-nav {
-            position: absolute;
-            bottom: 20px;
-            width: calc(100% - 60px);
-            /* Adjusted to fit within padding */
+        /* Header Row */
+        .page-header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            left: 30px;
-            /* Align with page padding */
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            animation: headerSlideDown 0.6s ease-out;
         }
 
-        .nav-btn {
-            background: #16213e;
+        @keyframes headerSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-header h2 {
+            color: #1a202c;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 600;
+            padding-bottom: 8px;
+            margin: 0 auto;
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .page-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            border-radius: 2px;
+            animation: lineExpand 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes lineExpand {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+
+            to {
+                width: 60px;
+                opacity: 1;
+            }
+        }
+
+        .skip-link {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, #48bb78, #38a169);
             color: white;
-            border: none;
+            text-decoration: none;
             padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: buttonSlideIn 0.6s ease-out 0.2s both;
         }
 
-        .nav-btn:hover {
-            background: #1a1a2e;
+        @keyframes buttonSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .nav-btn:disabled {
-            background: #a0a0c0;
-            cursor: not-allowed;
+        .skip-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(72, 187, 120, 0.4);
         }
 
         .close-book {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #ff4e50;
+            background: linear-gradient(135deg, #ff4e50, #e53e3e);
             color: white;
             border: none;
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 101;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+            animation: rotateIn 0.6s ease-out 0.3s both;
+        }
+
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-90deg) scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+
+        .close-book:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 6px 18px rgba(229, 62, 62, 0.4);
+        }
+
+        .page h3 {
+            color: #2d3748;
+            margin: 25px 0 15px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            padding-left: 15px;
+            border-left: 4px solid #ff4e50;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .page p {
+            /* margin-bottom: 18px; */
+            line-height: 1;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            color: #4a5568;
+            animation: textReveal 0.7s ease-out;
+        }
+
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page ul {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .page li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            position: relative;
+            padding-left: 12px;
+            color: #4a5568;
+            animation: listItemSlide 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        @keyframes listItemSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .page li:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .page li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .page li:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .page li:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .page li:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .page li::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            border-radius: 50%;
+        }
+
+        .page-nav {
+            position: absolute;
+            bottom: 25px;
+            width: calc(100% - 40px);
+            display: flex;
+            justify-content: space-between;
+            left: 20px;
+            animation: navAppear 0.6s ease-out 0.4s both;
+        }
+
+        @keyframes navAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .page-numbers {
             position: absolute;
-            bottom: 20px;
+            bottom: 35px;
             left: 50%;
             transform: translateX(-50%);
-            color: #666;
+            color: #718096;
             font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.6s ease-out 0.5s both;
         }
 
-        @media (max-width: 768px) {
-            .game-title {
-                font-size: 2.5rem;
+        /* Mobile Optimizations */
+
+        /* ============================================
+   RESPONSIVE MEDIA QUERIES
+   Modern & Attractive Mobile-First Approach
+   ============================================ */
+
+        /* Large Tablets & Small Desktops (1024px and below) */
+        @media screen and (max-width: 1024px) {
+            .container {
+                max-width: 90%;
+                padding: 0 15px;
             }
 
             .book {
-                height: 70vh;
+                max-width: 750px;
+                height: 80vh;
+            }
+
+            .logo-frame {
+                width: 180px;
+                height: 180px;
+            }
+
+            .game-title {
+                font-size: clamp(2.2rem, 5vw, 3.5rem);
+                letter-spacing: 2px;
             }
 
             .page {
-                padding: 20px 15px 70px;
-                /* Adjusted for mobile */
+                padding: 20px 18px 75px;
+            }
+        }
+
+        /* Tablets (768px and below) */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 15px;
             }
 
-            .page h2 {
-                font-size: 1.5rem;
+            .container {
+                max-width: 95%;
+            }
+
+            .logo-frame {
+                width: 160px;
+                height: 160px;
+            }
+
+            .game-title {
+                font-size: clamp(2rem, 5.5vw, 3rem);
+                letter-spacing: 2px;
+                margin-bottom: 0.8rem;
+            }
+
+            .subtitle {
+                font-size: clamp(1rem, 2.8vw, 1.2rem);
+                margin-bottom: 2rem;
+                min-height: 50px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                max-width: 350px;
+                padding: 14px 32px;
+                font-size: 1.05rem;
+            }
+
+            /* Book Adjustments */
+            .book {
+                max-width: 95%;
+                height: 75vh;
+            }
+
+            .book-cover {
+                padding: 25px 20px;
+                border-radius: 10px 18px 18px 10px;
+            }
+
+            .cover-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1.5rem;
+            }
+
+            .cover-title {
+                font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+                letter-spacing: 1.5px;
+            }
+
+            .cover-subtitle {
+                font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+                margin-bottom: 1.5rem;
+                max-width: 350px;
+            }
+
+            .open-text {
+                font-size: 0.9rem;
+                margin-top: 1.5rem;
+            }
+
+            .page {
+                padding: 18px 16px 70px;
+            }
+
+            .page-header {
+                margin-bottom: 20px;
+                padding-bottom: 12px;
+            }
+
+            .page-header h2 {
+                font-size: clamp(1.3rem, 3.5vw, 1.7rem);
+            }
+
+            .skip-link {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+
+            .close-book {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .page h3 {
+                font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+                margin: 20px 0 12px;
+                padding-left: 12px;
+                border-left-width: 3px;
+            }
+
+            .page p {
+                font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+                margin-bottom: 16px;
+            }
+
+            .page ul {
+                margin-left: 20px;
+                margin-bottom: 20px;
+            }
+
+            .page li {
+                font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+                margin-bottom: 10px;
+                padding-left: 10px;
             }
 
             .page-nav {
-                width: calc(100% - 30px);
-                /* Adjusted for mobile */
-                left: 15px;
-                /* Align with mobile page padding */
+                bottom: 20px;
+                width: calc(100% - 32px);
+                left: 16px;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .page-numbers {
+                bottom: 30px;
+                font-size: 0.85rem;
+                padding: 5px 14px;
             }
         }
+
+        /* Mobile Landscape & Large Phones (640px and below) */
+        @media screen and (max-width: 640px) {
+            .logo-frame {
+                width: 140px;
+                height: 140px;
+            }
+
+            .logo-container {
+                margin-bottom: 1.5rem;
+            }
+
+            .game-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                letter-spacing: 1.5px;
+            }
+
+            .subtitle {
+                font-size: clamp(0.95rem, 3vw, 1.1rem);
+                margin-bottom: 1.8rem;
+                min-height: 45px;
+            }
+
+            .subtitle-text {
+                animation: typing 2.5s steps(20, end), blink-caret 1.2s step-end infinite;
+            }
+
+            .action-btn {
+                padding: 13px 28px;
+                font-size: 1rem;
+                min-width: 180px;
+            }
+
+            /* Book Mobile Optimization */
+            .book-container {
+                padding: 10px;
+            }
+
+            .book {
+                width: 100%;
+                height: 70vh;
+            }
+
+            .book-cover {
+                padding: 20px 15px;
+                border-radius: 8px 15px 15px 8px;
+            }
+
+            .cover-logo {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 1.2rem;
+            }
+
+            .cover-title {
+                font-size: clamp(1.4rem, 5vw, 2rem);
+                letter-spacing: 1.2px;
+                margin-bottom: 0.6rem;
+            }
+
+            .cover-subtitle {
+                font-size: clamp(0.85rem, 2.5vw, 1rem);
+                margin-bottom: 1.2rem;
+                max-width: 300px;
+            }
+
+            .open-text {
+                font-size: 0.85rem;
+                padding: 7px 14px;
+                margin-top: 1.2rem;
+            }
+
+            .page {
+                padding: 15px 14px 65px;
+            }
+
+            .page-header {
+                margin-bottom: 18px;
+                padding-bottom: 10px;
+                gap: 10px;
+            }
+
+            .page-header h2 {
+                font-size: clamp(1.2rem, 4vw, 1.5rem);
+                padding-bottom: 6px;
+            }
+
+            .page-header h2::after {
+                width: 50px;
+                height: 2.5px;
+                bottom: -10px;
+            }
+
+            .skip-link {
+                font-size: 0.8rem;
+                padding: 7px 14px;
+            }
+
+            .close-book {
+                width: 34px;
+                height: 34px;
+                font-size: 0.95rem;
+            }
+
+            .page h3 {
+                font-size: clamp(1.05rem, 3vw, 1.2rem);
+                margin: 18px 0 10px;
+                padding-left: 10px;
+            }
+
+            .page p {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+                margin-bottom: 14px;
+            }
+
+            .page ul {
+                margin-left: 18px;
+                margin-bottom: 18px;
+            }
+
+            .page li {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+                margin-bottom: 9px;
+                padding-left: 8px;
+            }
+
+            .page li::before {
+                width: 7px;
+                height: 7px;
+                left: -18px;
+                top: 9px;
+            }
+
+            .page-nav {
+                bottom: 18px;
+                width: calc(100% - 28px);
+                left: 14px;
+            }
+
+            .nav-btn {
+                padding: 9px 18px;
+                font-size: 0.85rem;
+            }
+
+            .page-numbers {
+                bottom: 28px;
+                font-size: 0.8rem;
+                padding: 4px 12px;
+            }
+        }
+
+        /* Small Mobile Phones (480px and below) */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .logo-frame {
+                width: 120px;
+                height: 120px;
+            }
+
+            .logo-container {
+                margin-bottom: 1.2rem;
+            }
+
+            .game-title {
+                font-size: clamp(1.6rem, 7vw, 2.2rem);
+                letter-spacing: 1.2px;
+                margin-bottom: 0.6rem;
+            }
+
+            .subtitle {
+                font-size: clamp(0.9rem, 3.5vw, 1rem);
+                margin-bottom: 1.5rem;
+                min-height: 40px;
+            }
+
+            .button-group {
+                gap: 12px;
+            }
+
+            .action-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+                min-width: 160px;
+            }
+
+            /* Book Extra Small Screen Optimization */
+            .book-container {
+                padding: 8px;
+            }
+
+            .book {
+                height: 65vh;
+            }
+
+            .book-cover {
+                padding: 18px 12px;
+                border-radius: 8px 12px 12px 8px;
+            }
+
+            /* .book-cover:hover {
+        transform: rotateY(-3deg) translateX(-1px);
+    } */
+
+            .book-cover.open {
+                transform: rotateY(-155deg) translateX(-3px);
+            }
+
+            .cover-logo {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
+
+            .cover-title {
+                font-size: clamp(1.3rem, 5.5vw, 1.8rem);
+                letter-spacing: 1px;
+                margin-bottom: 0.5rem;
+            }
+
+            .cover-subtitle {
+                font-size: clamp(0.8rem, 3vw, 0.95rem);
+                margin-bottom: 1rem;
+                max-width: 280px;
+            }
+
+            .open-text {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+                margin-top: 1rem;
+            }
+
+            .page {
+                padding: 12px 12px 60px;
+            }
+
+            .page-header {
+                margin-bottom: 15px;
+                padding-bottom: 8px;
+                gap: 8px;
+            }
+
+            .page-header h2 {
+                font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+                padding-bottom: 5px;
+            }
+
+            .page-header h2::after {
+                width: 45px;
+                height: 2px;
+                bottom: -8px;
+            }
+
+            .skip-link {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+                border-radius: 20px;
+            }
+
+            .close-book {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .page h3 {
+                font-size: clamp(1rem, 3.5vw, 1.15rem);
+                margin: 15px 0 8px;
+                padding-left: 8px;
+                border-left-width: 3px;
+            }
+
+            .page p {
+                font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+
+            .page ul {
+                margin-left: 15px;
+                margin-bottom: 15px;
+            }
+
+            .page li {
+                font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+                margin-bottom: 8px;
+                padding-left: 6px;
+                line-height: 1.5;
+            }
+
+            .page li::before {
+                width: 6px;
+                height: 6px;
+                left: -15px;
+                top: 8px;
+            }
+
+            .page-nav {
+                bottom: 15px;
+                width: calc(100% - 24px);
+                left: 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+                border-radius: 6px;
+            }
+
+            .page-numbers {
+                bottom: 25px;
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+        }
+
+        /* Extra Small Mobile Phones (360px and below) */
+        @media screen and (max-width: 360px) {
+            .logo-frame {
+                width: 100px;
+                height: 100px;
+            }
+
+            .game-title {
+                font-size: clamp(1.4rem, 8vw, 2rem);
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: clamp(0.85rem, 4vw, 0.95rem);
+                margin-bottom: 1.2rem;
+            }
+
+            .action-btn {
+                padding: 11px 20px;
+                font-size: 0.9rem;
+                min-width: 140px;
+            }
+
+            .book {
+                height: 60vh;
+            }
+
+            .cover-logo {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 0.8rem;
+            }
+
+            .cover-title {
+                font-size: clamp(1.2rem, 6vw, 1.6rem);
+            }
+
+            .cover-subtitle {
+                font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+                max-width: 250px;
+            }
+
+            .page-header h2 {
+                font-size: clamp(1rem, 5vw, 1.3rem);
+            }
+
+            .page h3 {
+                font-size: clamp(0.95rem, 4vw, 1.1rem);
+            }
+
+            .page p,
+            .page li {
+                font-size: clamp(0.8rem, 3.2vw, 0.9rem);
+            }
+
+            .nav-btn {
+                padding: 7px 14px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Landscape Mode Optimization for Mobile Devices */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .book {
+                height: 85vh;
+                max-width: 90%;
+            }
+
+            .book-cover {
+                padding: 15px 20px;
+            }
+
+            .cover-logo {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 0.8rem;
+            }
+
+            .cover-title {
+                font-size: clamp(1.2rem, 3vw, 1.6rem);
+                margin-bottom: 0.4rem;
+            }
+
+            .cover-subtitle {
+                font-size: clamp(0.8rem, 2vw, 0.95rem);
+                margin-bottom: 0.8rem;
+            }
+
+            .open-text {
+                font-size: 0.75rem;
+                padding: 5px 10px;
+                margin-top: 0.8rem;
+            }
+
+            .page {
+                padding: 12px 15px 55px;
+            }
+
+            .page-header {
+                margin-bottom: 12px;
+            }
+
+            .page h3 {
+                margin: 12px 0 8px;
+            }
+
+            .page-nav {
+                bottom: 12px;
+            }
+
+            .page-numbers {
+                bottom: 22px;
+            }
+        }
+
+        /* High DPI / Retina Display Optimization */
+        @media screen and (-webkit-min-device-pixel-ratio: 2),
+        screen and (min-resolution: 192dpi) {
+
+            .logo-frame img,
+            .cover-logo img {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+
+        /* Touch Device Optimization */
+        @media (hover: none) and (pointer: coarse) {
+
+            .action-btn:hover,
+            .play-btn:hover,
+            .skip-link:hover,
+            .nav-btn:hover,
+            .close-book:hover {
+                transform: scale(0.98);
+            }
+
+            .action-btn:active,
+            .play-btn:active {
+                transform: scale(0.95);
+            }
+
+            .logo-frame:hover img,
+            .cover-logo:hover img {
+                transform: scale(1);
+            }
+
+            /* .book-cover:hover {
+        transform: none;
+    } */
+        }
+
+        /* Reduced Motion for Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+
+
+        /* Tablet Landscape and Below (1024px) */
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div class="logo-container">
+            <div class="logo-frame">
+                <!-- Add your logo image here -->
+                <img src="./Logo.jpg" alt="Deceptionist Logo">
+            </div>
+        </div>
+
         <h1 class="game-title">DECEPTIONIST</h1>
-        <p class="subtitle">"NOT ALL EXITS ARE ESCAPE"</p>
-        <button class="open-book-btn">OPEN RULE BOOK</button>
+        <p class="subtitle">
+            <span class="subtitle-text">"NOT ALL EXITS ARE ESCAPE"</span>
+        </p>
+
+        <div class="button-group">
+            <button class="action-btn">OPEN RULE BOOK</button>
+        </div>
     </div>
 
     <div class="book-container">
         <div class="book">
             <div class="book-cover">
+                <div class="cover-logo">
+                    <!-- Add your logo image here -->
+                    <img src="./Logo.jpg" alt="Deceptionist Logo">
+                </div>
                 <h1 class="cover-title">DECEPTIONIST</h1>
                 <p class="cover-subtitle">Rule Book</p>
                 <p class="open-text">Click to open</p>
             </div>
-            <div class="book-content">
-                <button class="close-book">×</button>
 
+            <div class="book-content">
+                <!-- PAGE 1 -->
                 <div class="page active" id="page1">
-                    <h2>How to Play</h2>
+                    <div class="page-header">
+                        <a href="./check.html" class="skip-link">Skip</a>
+                        <h2>How to Play</h2>
+                        <button class="close-book">×</button>
+                    </div>
+
                     <h3>Goal</h3>
                     <p>Move your piece from its home color to the opposite location point (the center cell marked with a
                         pin).</p>
@@ -322,8 +1543,6 @@
                         <li><strong>Roll</strong>: Click Roll Dice on your turn.</li>
                         <li><strong>Unlock</strong>: Your first six only unlocks your piece onto the board (no wall that
                             turn).</li>
-                        <li><strong>Move</strong>: After rolling, click a highlighted cell to move exactly that many
-                            steps along connected cells.</li>
                     </ul>
 
                     <div class="page-nav">
@@ -333,23 +1552,28 @@
                     <div class="page-numbers">Page 1 of 4</div>
                 </div>
 
+                <!-- PAGE 2 -->
                 <div class="page" id="page2">
-                    <h2>Walls</h2>
+                    <div class="page-header">
+                        <a href="./check.html" class="skip-link">Skip</a>
+                        <h2>Walls</h2>
+                        <button class="close-book">×</button>
+                    </div>
+
                     <ul>
                         <li><strong>When</strong>: Walls can be placed only on a turn where a six is rolled (except the
-                            first six, which only unlocks).</li>
-                        <li><strong>Choice</strong>: Placing a wall is optional for both you and bots.</li>
+                            first six).</li>
+                        <li><strong>Choice</strong>: Placing a wall is optional.</li>
                         <li><strong>Limits</strong>: Each color has 3 walls. A wall lasts for 3 of that color's turns.
                         </li>
                         <li><strong>Effect</strong>: Only the wall owner can enter its cell; others are blocked.</li>
-                        <li><strong>No-Place Zones</strong>: Walls cannot be placed on any location/goal cell.</li>
+                        <li><strong>No-Place Zones</strong>: Walls cannot be placed on goal cells.</li>
                     </ul>
 
-                    <h2>Special Rule</h2>
+                    <h3>Special Rule</h3>
                     <ul>
-                        <li><strong>Trapped on 4</strong>: If a piece is sandwiched by two walls with a one-cell gap
-                            (either horizontally or vertically) and the roll is 4, that piece automatically returns to
-                            its home (it is not relocked).</li>
+                        <li><strong>Trapped on 4</strong>: If trapped between two walls with a one-cell gap and roll 4,
+                            you return home.</li>
                     </ul>
 
                     <div class="page-nav">
@@ -359,21 +1583,25 @@
                     <div class="page-numbers">Page 2 of 4</div>
                 </div>
 
+                <!-- PAGE 3 -->
                 <div class="page" id="page3">
-                    <h2>Winning (1v3)</h2>
+                    <div class="page-header">
+                        <a href="./check.html" class="skip-link">Skip</a>
+                        <h2>Winning (1v3)</h2>
+                        <button class="close-book">×</button>
+                    </div>
+
                     <ul>
-                        <li><strong>Ends When</strong>: The game ends when you finish (shows rank: 1st/2nd/3rd) or all
-                            three bots finish first (You lose).</li>
-                        <li><strong>Ongoing</strong>: If a bot finishes before you, the game continues until you finish
-                            or all three bots finish.</li>
+                        <li><strong>Ends When</strong>: Game ends when you finish or all 3 bots finish first.</li>
+                        <li><strong>Ongoing</strong>: If a bot finishes before you, game continues until you or all bots
+                            finish.</li>
                     </ul>
 
-                    <h2>Controls</h2>
+                    <h3>Controls</h3>
                     <ul>
                         <li><strong>Roll Dice</strong>: Start your turn.</li>
                         <li><strong>Move</strong>: Click a highlighted target cell.</li>
-                        <li><strong>Place Wall</strong>: After rolling a six (not the first six), click Place Wall, then
-                            click a board cell to place it.</li>
+                        <li><strong>Place Wall</strong>: After rolling a six, click Place Wall, then select a cell.</li>
                     </ul>
 
                     <div class="page-nav">
@@ -383,12 +1611,16 @@
                     <div class="page-numbers">Page 3 of 4</div>
                 </div>
 
+                <!-- PAGE 4 -->
                 <div class="page" id="page4">
-                    <h2>Ready to Play?</h2>
-                    <p>Now that you know the rules, you're ready to start playing Deceptionist!</p>
-                    <p>Remember, strategy is key. Use your walls wisely to block opponents while advancing your own
-                        piece.</p>
-                    <p>Good luck and have fun!</p>
+                    <div class="page-header">
+                        <a href="./check.html" class="skip-link">Skip</a>
+                        <h2>Ready to Play?</h2>
+                        <button class="close-book">×</button>
+                    </div>
+
+                    <p>Now that you know the rules, you're ready to start playing Deceptionist! Use strategy, plan your
+                        moves, and block wisely.</p>
 
                     <div class="page-nav">
                         <button class="nav-btn prev-btn">Previous</button>
@@ -402,85 +1634,49 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const openBookBtn = document.querySelector('.open-book-btn');
+            const openBookBtn = document.querySelector('.action-btn');
             const bookContainer = document.querySelector('.book-container');
             const bookCover = document.querySelector('.book-cover');
             const bookContent = document.querySelector('.book-content');
-            const closeBookBtn = document.querySelector('.close-book');
+            const closeBtns = document.querySelectorAll('.close-book');
             const pages = document.querySelectorAll('.page');
             const prevBtns = document.querySelectorAll('.prev-btn');
             const nextBtns = document.querySelectorAll('.next-btn');
             const pageNumbers = document.querySelectorAll('.page-numbers');
-
+            const playGameBtn = document.querySelector('#page4 .action-btn');
             let currentPage = 0;
 
-            // Open book when button is clicked
-            openBookBtn.addEventListener('click', function () {
-                bookContainer.style.display = 'flex';
-            });
-
-            // Open book when cover is clicked
-            bookCover.addEventListener('click', function () {
+            openBookBtn.addEventListener('click', () => bookContainer.style.display = 'flex');
+            bookCover.addEventListener('click', () => {
                 bookCover.classList.add('open');
-                setTimeout(() => {
-                    bookContent.style.display = 'block';
-                }, 500);
+                setTimeout(() => bookContent.style.display = 'block', 500);
             });
 
-            // Close book
-            closeBookBtn.addEventListener('click', function () {
-                bookContent.style.display = 'none';
-                bookCover.classList.remove('open');
-                setTimeout(() => {
-                    bookContainer.style.display = 'none';
-                    showPage(0); // Reset to first page
-                }, 500);
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    bookContent.style.display = 'none';
+                    bookCover.classList.remove('open');
+                    setTimeout(() => {
+                        bookContainer.style.display = 'none';
+                        showPage(0);
+                    }, 500);
+                });
             });
 
-            // Navigation functions
-            function showPage(pageIndex) {
-                pages.forEach(page => page.classList.remove('active'));
-                pages[pageIndex].classList.add('active');
-                currentPage = pageIndex;
-
-                // Update page numbers
-                pageNumbers.forEach(el => {
-                    el.textContent = `Page ${pageIndex + 1} of ${pages.length}`;
-                });
-
-                // Update button states
-                prevBtns.forEach(btn => {
-                    btn.disabled = pageIndex === 0;
-                });
-
-                nextBtns.forEach(btn => {
-                    btn.disabled = pageIndex === pages.length - 1;
-                });
+            function showPage(i) {
+                pages.forEach(p => p.classList.remove('active'));
+                pages[i].classList.add('active');
+                currentPage = i;
+                pageNumbers.forEach(el => el.textContent = `Page ${i + 1} of ${pages.length}`);
+                prevBtns.forEach(btn => btn.disabled = i === 0);
+                nextBtns.forEach(btn => btn.disabled = i === pages.length - 1);
             }
 
-            // Add event listeners to navigation buttons
-            prevBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    if (currentPage > 0) {
-                        showPage(currentPage - 1);
-                    }
-                });
-            });
-
-            nextBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    if (currentPage < pages.length - 1) {
-                        showPage(currentPage + 1);
-                    }
-                });
-            });
-
-            // Play game button on last page
-            const playGameBtn = document.querySelector('#page4 .open-book-btn');
-            playGameBtn.addEventListener('click', function () {
-                window.location.href = 'deceptionist.html';
-            });
+            prevBtns.forEach(btn => btn.addEventListener('click', () => currentPage > 0 && showPage(currentPage - 1)));
+            nextBtns.forEach(btn => btn.addEventListener('click', () => currentPage < pages.length - 1 && showPage(currentPage + 1)));
+            playGameBtn.addEventListener('click', () => window.location.href = 'check.html');
         });
     </script>
 </body>
+
 </html>
