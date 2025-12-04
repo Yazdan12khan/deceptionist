@@ -270,15 +270,7 @@
             box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
         }
 
-        .location-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -40%);
-            width: 16px;
-            height: 16px;
-            z-index: 1;
-        }
+        /* location icons removed - entry cells are still marked with class 'has-location-icon' */
 
         .goti {
             position: absolute;
@@ -1811,7 +1803,7 @@
                 if (!positionToElement[cellKey]) return;
                 if (wallCellToOwner.has(cellKey)) return;
                 const cell = positionToElement[cellKey];
-                if (cell && cell.querySelector('.location-icon')) return;
+                if (cell && cell.classList.contains('has-location-icon')) return;
 
                 let occupied = false;
                 for (const col of allColors) {
@@ -1976,7 +1968,7 @@
             if (wallCellToOwner.has(key)) return false;
 
             const cell = positionToElement[key];
-            if (cell && cell.querySelector('.location-icon')) return false;
+                if (cell && cell.classList.contains('has-location-icon')) return false;
 
             for (const col of allColors) {
                 const info = gotis[col];
@@ -2832,54 +2824,36 @@
             box.dataset.r = r.toString();
             box.dataset.c = c.toString();
 
-            if (r === 0 && [8, 7, 9].includes(c)) {
+            if (r === 0 && [8].includes(c)) {
                 box.style.background = 'yellow';
                 box.style.border = '1px solid black';
                 if (c === 8) {
                     box.classList.add('has-location-icon');
-                    const icon = document.createElement('div');
-                    icon.className = 'location-icon';
-                    icon.innerHTML = pinSVG;
-                    icon.style.transform = 'translate(-50%, 10%) rotate(180deg)';
-                    icon.style.fontSize = '23px';
-                    box.appendChild(icon);
+                    box.dataset.entry = 'yellow';
                 }
             }
-            else if ((r === 7, 6, 8) && c === 0) {
+            else if ((r === 7) && c === 0) {
                 box.style.background = '#68DD00';
                 box.style.border = '1px solid black';
                 if (r === 7) {
                     box.classList.add('has-location-icon');
-                    const icon = document.createElement('div');
-                    icon.className = 'location-icon';
-                    icon.innerHTML = pinSVG;
-                    icon.style.fontSize = '18px';
-                    icon.style.transform = 'translate(-30%, -50%) rotate(90deg)';
-                    box.appendChild(icon);
+                    box.dataset.entry = 'green';
                 }
             }
-            else if ((r === 7, 6, 8) && c === cols - 1) {
+            else if ((r === 7) && c === cols - 1) {
                 box.style.background = 'blue';
                 box.style.border = '1px solid black';
                 if (r === 7) {
                     box.classList.add('has-location-icon');
-                    const icon = document.createElement('div');
-                    icon.className = 'location-icon';
-                    icon.innerHTML = pinSVG;
-                    icon.style.transform = 'translate(-50%, -50%) rotate(270deg)';
-                    box.appendChild(icon);
+                    box.dataset.entry = 'blue';
                 }
             }
-            else if (r === rows - 1 && (c === 8, 9, 7)) {
+            else if (r === rows - 1 && (c === 8)) {
                 box.style.background = 'red';
                 box.style.border = '1px solid black';
                 if (c === 8) {
                     box.classList.add('has-location-icon');
-                    const icon = document.createElement('div');
-                    icon.className = 'location-icon';
-                    icon.innerHTML = pinSVG;
-                    icon.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-                    box.appendChild(icon);
+                    box.dataset.entry = 'red';
                 }
             }
 
